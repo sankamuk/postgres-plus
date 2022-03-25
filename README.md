@@ -24,12 +24,11 @@ docker run --name postgresql -d \
 
 
 - Features:
-
-- Build on Centos 7
-- Postgres single instance
-- Automatic User and DB creation, also allowing full access for the User on the DB
-- Allow peristent volume, thus preserving database data over container restart
-- Allow remote login using user id and password
+  - Build on Centos 7
+  - Postgres single instance
+  - Automatic User and DB creation, also allowing full access for the User on the DB
+  - Allow peristent volume, thus preserving database data over container restart
+  - Allow remote login using user id and password
 
 
 
