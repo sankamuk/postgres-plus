@@ -8,7 +8,7 @@ This repository provides Docker image build setup for an `Single Centos` node `P
 - Build
 
 ```
-docker build -t <>/postgres-plus .
+docker build -t <yourname>/postgres-plus .
 ```
 
 - Run
@@ -21,5 +21,16 @@ docker run --name postgresql -d \
 -e 'POSTGRESQL_DATABASE=my_database' \
 <yourname>/postgresql
 ```
+
+
+- Features:
+
+- Build on Centos 7
+- Postgres single instance
+- Automatic User and DB creation, also allowing full access for the User on the DB
+- Allow peristent volume, thus preserving database data over container restart
+- Allow remote login using user id and password
+
+
 
 > Note this implementation is largely based on the work of https://github.com/CentOS/CentOS-Dockerfiles/tree/master/postgres/centos7
