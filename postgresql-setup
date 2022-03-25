@@ -1,0 +1,75 @@
+#!/bin/sh
+# postgresql-setup - Initialization and upgrade operations for PostgreSQL
+
+PGVERSION=9.2.7
+PGENGINE=/usr/bin
+PREVMAJORVERSION=9.2
+PREVPGENGINE=/usr/lib64/pgsql/postgresql-9.2/bin
+SERVICE_NAME="$2"
+if [ x"$SERVICE_NAME" = x ]; then
+    SERVICE_NAME=postgresql
+fi
+PGDATA="/var/lib/pgsql/data"
+PGPORT="5432"
+PGLOG=/var/lib/pgsql/initdb.log
+export PGDATA
+export PGPORT
+if [ -x /sbin/runuser ]; then
+    SU=runuser
+else
+    SU=su
+fi
+script_result=0
+
+_perform_initdb(){
+    if [ ! -e "$PGDATA" ]; then
+        mkdir "$PGDATA" || return 1
+        chown postgres:postgres "$PGDATA"
+        chmod go-rwx "$PGDATA"
+    fi
+    # Clean up SELinux tagging for PGDATA
+    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA"
+
+    # Create the initdb log file if needed
+    if [ ! -e "$PGLOG" -a ! -h "$PGLOG" ]; then
+        touch "$PGLOG" || return 1
+        chown postgres:postgres "$PGLOG"
+        chmod go-rwx "$PGLOG"
+        [ -x /sbin/restorecon ] && /sbin/restorecon "$PGLOG"
+    fi
+
+    # Initialize the database
+    $SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident'" \
+                    >> "$PGLOG" 2>&1 < /dev/null
+
+    # Create directory for postmaster log files
+    mkdir "$PGDATA/pg_log"
+    chown postgres:postgres "$PGDATA/pg_log"
+    chmod go-rwx "$PGDATA/pg_log"
+    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA/pg_log"
+
+    if [ -f "$PGDATA/PG_VERSION" ]; then
+        return 0
+    fi
+    return 1
+}
+
+_initdb(){
+    if [ -f "$PGDATA/PG_VERSION" ]; then
+        echo $"Data directory is not empty!"
+        echo
+        script_result=1
+    else
+        echo -n $"Initializing database ... "
+        if _perform_initdb; then
+            echo $"OK"
+        else
+            echo $"failed, see $PGLOG"
+            script_result=1
+        fi
+        echo
+    fi
+}
+
+# Call function
+_initdb
