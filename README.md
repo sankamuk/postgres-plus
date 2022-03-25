@@ -3,7 +3,7 @@
 ![Docker](https://img.shields.io/badge/platform-docker-brightgreen.svg)
 ![Postgres](https://img.shields.io/badge/software-Postgres-brightgreen.svg)
 
-This repository provides Docker image build setup for an 'Single Centos' node 'Postgres' instance with 'Persistent Volume' support. 
+This repository provides Docker image build setup for an `Single Centos` node `Postgres` instance with `Persistent Volume` support. 
 
 - Build
 
