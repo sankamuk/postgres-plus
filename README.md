@@ -33,7 +33,7 @@ docker run --name postgresql -d \
 
 - Demo
 
-  - Build 
+-- ***Build***
 
 ```
 [sankar@localhost postgres-plus-main]$ docker build -t sanmuk21/postgres-plus:1.9.2 .
@@ -54,7 +54,7 @@ Successfully built 31fb8ec75c27
 Successfully tagged sanmuk21/postgres-plus:1.9.2
 ```
 
-  - Run (with volume)
+-- ***Run (with volume)***
 
 ```
 [sankar@localhost postgres-plus-main]$ mkdir /home/sankar/postgres-plus/postgres-plus-main/db_data
@@ -94,7 +94,7 @@ airflow=# \q
 -bash-4.2$
 ```
 
-  - Destroy
+-- ***Destroy***
 
 ```
 [sankar@localhost postgres-plus-main]$ docker stop server && docker rm server
@@ -105,7 +105,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 [sankar@localhost postgres-plus-main]$ 
 ```
 
-  - Rerun (with old volume)
+-- ***Rerun (with old volume)***
 
 ```
 [sankar@localhost postgres-plus-main]$ docker run --network=dbtest -d -p 5432:5432 \
