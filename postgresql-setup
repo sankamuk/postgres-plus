@@ -1,5 +1,5 @@
 #!/bin/sh
-# postgresql-setup - Initialization and upgrade operations for PostgreSQL
+# postgresql-setup - Initialization operations for PostgreSQL
 
 PGVERSION=9.2.7
 PGENGINE=/usr/bin
